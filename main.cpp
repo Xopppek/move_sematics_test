@@ -7,7 +7,7 @@ using namespace std;
 class String{
 private:
     char* data_;
-    int size_ = 60; // я не хочу писать ресайз, вводить можно только строки в 60 символов
+    int size_ = 600; // я не хочу писать ресайз, вводить можно только строки в 60 символов
 public:
     String() = default;
     String(const char* string){
@@ -16,7 +16,7 @@ public:
         memcpy(data_, string, size_);
     }
 
-    String(const String& other){
+    String(String& other){
         size_ = other.size_;
         data_ = new char[size_];
         memcpy(data_, other.data_, size_);
@@ -58,18 +58,12 @@ public:
     static void Swap_copy(String* a, String* b){
         String temp(*a);
         memcpy(temp.data_, a->data_, a->size_);
-        /*for (int i = 0; i < a->size_; i++)
-            temp.data_[i] = a->data_[i];*/
 
         a->size_ = b->size_;
         memcpy(a->data_, b->data_, b->size_);
-        /*for (int i = 0; i < b->size_; i++)
-            a->data_[i] = b->data_[i];*/
 
         b->size_ = temp.size_;
         memcpy(b->data_, temp.data_, temp.size_);
-        /*for (int i = 0; i < b->size_; i++)
-            a->data_[i] = b->data_[i];*/
     }
 
     void Print(){
@@ -86,9 +80,9 @@ int main() {
 
     vector<String> string_vector(vector_size);
 
-    string_vector[0] = "pointer.....................................................";
+    string_vector[0] = "pointer..................................................... ........................................................... ........................................................... ........................................................... ........................................................... ........................................................... ........................................................... ........................................................... ...........................................................";
     for (int i = 1; i < vector_size; i++){
-        string_vector[i] = "............................................................";
+        string_vector[i] = "............................................................ ........................................................... ........................................................... ........................................................... ........................................................... ........................................................... ........................................................... ........................................................... ...........................................................";
     }
 
     auto begin = std::chrono::steady_clock::now();
@@ -105,6 +99,11 @@ int main() {
     elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 
     std::cout << "COPY SWAP: " << elapsed_ms.count() << " ms\n\n";
+
+   /* for (int i = 0; i<vector_size; i++){
+        printf("%3d: ", i);
+        string_vector[i].Print();
+    }*/
 
     // MOVE SWAP
     begin = std::chrono::steady_clock::now();
